@@ -90,7 +90,7 @@ pub struct MpmData {
     pub impulses: GpuImpulses,
     pub poses_staging: GpuVector<GpuSim>,
     prefix_sum: PrefixSumWorkspace,
-    models: GpuModels,
+    pub models: GpuModels,
     coupling: Vec<BodyCouplingEntry>,
 }
 

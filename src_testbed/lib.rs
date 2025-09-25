@@ -49,11 +49,18 @@ use wgsparkl::{
 #[derive(Debug, Clone)]
 pub struct TestbedSettings {
     pub draw_particles: bool,
+    pub wireframe: bool,
+    /// So apparently, marking with `#[non_exhastive]` prevents struct update syntax from working.
+    /// And using `..default()` results in a warning if all of the fields are specified (even if some may be added later)
+    /// so we have this field suppress that.
+    pub _indication_other_fields_may_be_added_later_so_use_default: (),
 }
 impl Default for TestbedSettings {
     fn default() -> Self {
         Self {
             draw_particles: true,
+            wireframe: true,
+            _indication_other_fields_may_be_added_later_so_use_default: (),
         }
     }
 }
@@ -82,8 +89,10 @@ pub fn init_testbed_with_settings(app: &mut App, settings: TestbedSettings) {
                 .chain(),
         );
 
-    #[cfg(not(target_arch = "wasm32"))]
-    app.add_plugins(WireframePlugin);
+    if settings.wireframe {
+        #[cfg(not(target_arch = "wasm32"))]
+        app.add_plugins(WireframePlugin);
+    }
 
     #[cfg(feature = "dim2")]
     load_internal_asset!(

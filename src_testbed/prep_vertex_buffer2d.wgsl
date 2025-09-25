@@ -18,12 +18,7 @@ var<uniform> params: Params::SimulationParams;
 @group(0) @binding(5)
 var<storage, read> config: RenderConfig;
 @group(0) @binding(6)
-var<storage, read> phases: array<Phase>;
-
-struct Phase {
-    phase: f32,
-    max_stretch: f32,
-}
+var<storage, read> phases: array<Particle::Phase>;
 
 struct RenderConfig {
     mode: u32,

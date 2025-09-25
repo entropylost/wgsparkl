@@ -46,15 +46,29 @@ use wgsparkl::{
     solver::Particle,
 };
 
-pub fn init_testbed(app: &mut App) {
+#[derive(Debug, Clone)]
+pub struct TestbedSettings {
+    pub draw_particles: bool,
+}
+impl Default for TestbedSettings {
+    fn default() -> Self {
+        Self {
+            draw_particles: true,
+        }
+    }
+}
+
+pub fn init_testbed_with_settings(app: &mut App, settings: TestbedSettings) {
     app.add_plugins(DefaultPlugins)
         // .add_plugins(WindowResizePlugin)
         .add_plugins((
             // bevy_mod_picking::DefaultPickingPlugins,
             DefaultEditorCamPlugins,
-        ))
-        .add_plugins(instancing::ParticlesMaterialPlugin)
-        .add_plugins(bevy_egui::EguiPlugin)
+        ));
+    if settings.draw_particles {
+        app.add_plugins(instancing::ParticlesMaterialPlugin);
+    }
+    app.add_plugins(bevy_egui::EguiPlugin)
         .init_resource::<SceneInits>()
         .add_systems(Startup, startup::setup_app)
         .add_systems(
@@ -85,6 +99,10 @@ pub fn init_testbed(app: &mut App) {
         "./instancing3d.wgsl",
         Shader::from_wgsl
     );
+}
+
+pub fn init_testbed(app: &mut App) {
+    init_testbed_with_settings(app, default())
 }
 
 #[derive(Resource)]

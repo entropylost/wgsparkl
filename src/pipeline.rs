@@ -272,7 +272,6 @@ impl MpmPipeline {
                 &data.sim_params,
                 &data.grid,
                 &data.ghost_particles,
-                &data.particles,
                 &data.bodies,
             );
         }

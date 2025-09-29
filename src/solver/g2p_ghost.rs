@@ -1,7 +1,7 @@
 use crate::grid::grid::{GpuGrid, WgGrid};
 use crate::grid::kernel::WgKernel;
 use crate::solver::params::{GpuSimulationParams, WgParams};
-use crate::solver::{GpuParticles, WgParticle};
+use crate::solver::WgParticle;
 use crate::{dim_shader_defs, substitute_aliases};
 use nalgebra::Vector3;
 use wgcore::kernel::{KernelInvocationBuilder, KernelInvocationQueue};
@@ -48,8 +48,7 @@ impl WgG2PGhost {
         sim_params: &GpuSimulationParams,
         grid: &GpuGrid,
         ghost_particles: &GpuGhostParticles,
-        particles: &GpuParticles,
-        bodies: &GpuBodySet,
+        _bodies: &GpuBodySet,
     ) {
         KernelInvocationBuilder::new(queue, &self.g2p_ghost)
             .bind_at(
